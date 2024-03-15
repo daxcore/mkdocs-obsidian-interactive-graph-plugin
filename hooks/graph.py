@@ -7,7 +7,9 @@ import json
 import re
 
 from urllib.parse import urlparse, urljoin
- 
+
+import logging
+logger = logging.getLogger(__name__)
 
 pattern = re.compile(r"(?<!\!)\[\[([^\|^\]^\#]{1,})(?:.*)\]\]")
 
@@ -22,7 +24,10 @@ def create_graph_json(files: Files, config: MkDocsConfig):
             page = Page(title=None, file=file, config=config)
             page.read_source(config=config)
             name = page.title
-            reverse[site_path + file.url + file.name] = name
+            nodes[name] = {
+                "symbolSize": 0
+            }
+            reverse[urljoin(site_path, file.url) + file.name] = name
 
     for file in files:
         if file.is_documentation_page():
@@ -30,27 +35,23 @@ def create_graph_json(files: Files, config: MkDocsConfig):
             page.read_source(config=config)
             name = page.title
             url = urljoin(urlparse(config.site_url).path, file.url)
-            nodes[name] = {
-                "url": url
-            }
-            nodes[name]["symbolSize"] = nodes[name].get("symbolSize", 0)
+            nodes[name]["url"] = url
 
             for match in re.finditer(pattern, page.markdown):
-                target = ""
+                c = 0
                 for k,v in reverse.items():
-                    for x in re.finditer(re.compile(r"(.*" + match.group(match.lastindex) + r")"), k):
-                        target = k
-                        break
-                if target == "":
-                    print("SKIP")
-                    continue
+                    wikilink = match.group(match.lastindex)
+                    for _ in re.finditer(re.compile(r"(.*" + wikilink + r")"), k):
+                        c += 1
+                        if c > 1:
+                            logger.warning("WARNING - [Graph] " + file.src_uri + " ambiguous wikilink: " + wikilink)
 
-                link = {
-                    "source": name,
-                    "target": reverse[target]
-                }
-                data["links"].append(link)
-                nodes[name]["symbolSize"] = nodes[name].get("symbolSize", 1) + 1
+                        link = {
+                            "source": name,
+                            "target": reverse[k]
+                        }
+                        data["links"].append(link)
+                        nodes[reverse[k]]["symbolSize"] = nodes[reverse[k]].get("symbolSize", 1) + 1
 
     for k,v in nodes.items():
         node = {
