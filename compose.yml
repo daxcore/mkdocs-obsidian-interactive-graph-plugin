@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  mkdocs:
+    build:
+      context: .
+      network: host
+    restart: unless-stopped
+    ports: 
+      - $IP:$PORT:8000
+    volumes:
+      - ./mkdocs.yml:/notes/mkdocs.yml:ro
+      - ./hooks/:/notes/hooks/:ro
+      - ./docs/:/notes/docs/:ro

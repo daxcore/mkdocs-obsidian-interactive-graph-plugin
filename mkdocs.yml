@@ -1,0 +1,67 @@
+site_name: YourSiteName
+docs_dir: ./docs/YourSiteName/
+site_url: https://daxcore.github.io/mkdocs-obsidian-interactive-graph/
+
+theme:
+  name: material
+  language: de
+  include_search_page: true
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: Source Code Pro
+  features:
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - navigation.expand
+    - navigation.indexes
+    # navigation.instant      # WARN: breaks some javascripts
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+
+plugins:
+  - search
+  - callouts
+  - obsidian-support
+  - obsidian-bridge
+  - glightbox
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite
+  - md_in_html
+  - def_list
+  - sane_lists
+  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - toc:
+      permalink: "#"
+      baselevel: 2
+
+extra_css:
+  - assets/stylesheets/obsidian_tags.css
+
+extra_javascript:
+  - https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
+  - https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js
+  - assets/javascripts/obsidian_tags.js
+  - assets/javascripts/graph.js
+
+hooks:
+  - hooks/graph.py
