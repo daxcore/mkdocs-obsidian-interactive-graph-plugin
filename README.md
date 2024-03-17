@@ -8,8 +8,9 @@ Adapt the `.env` and `mkdocs.yml` files to your needs.
 `docker compose up --build`
 
 # References
-https://www.mkdocs.org/
-https://squidfunk.github.io/mkdocs-material/
-https://github.com/ndy2/mkdocs-obsidian-support-plugin/tree/main
-https://github.com/GooRoo/mkdocs-obsidian-bridge
-https://github.com/blueswen/mkdocs-glightbox
+* https://www.mkdocs.org/
+* https://squidfunk.github.io/mkdocs-material/
+* https://github.com/ndy2/mkdocs-obsidian-support-plugin/tree/main
+* https://github.com/GooRoo/mkdocs-obsidian-bridge
+* https://github.com/blueswen/mkdocs-glightbox
+* https://echarts.apache.org
