@@ -32,7 +32,8 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/mkdocs-obsidian-interactive-graph-plugin
-    permissions: write-all
+    permissions:
+      id-token: write
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v4
