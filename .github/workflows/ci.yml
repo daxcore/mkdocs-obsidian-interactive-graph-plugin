@@ -6,6 +6,43 @@ on:
 permissions:
   contents: write
 jobs:
+  build:
+    name: Build plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - run: python setup.py sdist
+      - name: Archive plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            dist
+            !dist/**/*.md
+
+  release:
+    name: Upload release to PyPI
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/mkdocs-obsidian-interactive-graph-plugin
+    permissions: write-all
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - run: mkdir dist; mv mkdocs-obsidian-interactive-graph-plugin-*.tar.gz dist
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
+
   deploy:
     runs-on: ubuntu-latest
     steps:
