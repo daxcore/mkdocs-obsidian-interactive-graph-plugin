@@ -1,5 +1,4 @@
 $('.md-sidebar--secondary').each(function() {
-  var link = $(this).html();
   $(this).contents().append('<div id="graph" style="height:300px; width: 100%;"></div>');
 });
 

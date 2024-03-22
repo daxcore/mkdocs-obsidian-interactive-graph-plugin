@@ -10,7 +10,17 @@ Activate the plugin in mkdocs.yml, but note that this plugin has to be located b
 ```
 plugins:
   - obsidian-interactive-graph
+
+extra_javascript:
+  - https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
+  - https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js
+  - assets/javascripts/graph.js
 ```
+# Graph Javascript
+The `graph.js` example can be downloaded from [here](https://raw.githubusercontent.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/main/docs/YourSiteName/assets/javascripts/graph.js) and must be located into the docs directory under `docs/YourSiteName/assets/javascripts/graph.js`.
+
+# Demo
+Refer [here](https://daxcore.github.io/mkdocs-obsidian-interactive-graph-plugin/) for a demonstration of the interactive graph in Material for MkDocs.
 
 # Development
 Adapt the `.env` and `mkdocs.yml` files to your needs.
