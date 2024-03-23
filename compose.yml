@@ -12,5 +12,4 @@ services:
       - $IP:$PORT:8000
     volumes:
       - ./mkdocs.yml:/notes/mkdocs.yml:ro
-      - ./hooks/:/notes/hooks/:ro
       - ./docs/:/notes/docs/:ro

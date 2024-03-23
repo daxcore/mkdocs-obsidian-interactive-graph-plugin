@@ -2,7 +2,7 @@ import os
 
 from setuptools import setup, find_packages
 
-VERSION_NUMBER = '0.1.2'
+VERSION_NUMBER = '0.1.3'
 
 def read_file(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -14,7 +14,7 @@ setup(
     long_description=read_file('README.md'),
     long_description_content_type='text/markdown',
     keywords='mkdocs',
-    url='https://github.com/daxcore/mkdocs-obsidian-interactive-graph',
+    url='https://github.com/daxcore/mkdocs-obsidian-interactive-graph-plugin',
     author='daxcore',
     author_email='300ccda6-8d43-4f23-808e-961e653ff7d6@anonaddy.com',
     license='MIT',

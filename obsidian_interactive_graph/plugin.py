@@ -32,7 +32,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
         return result
 
     def get_page_path(self, page: MkDocsPage) -> str:
-        return self.get_path(self.site_path, page.file.src_uri).strip(".md")
+        return self.get_path(self.site_path, page.file.src_uri).replace(".md", "")
 
     def page_if_exists(self, page: str) -> str:
         page = self.get_path(self.site_path, page)
@@ -58,7 +58,6 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
         WIKI_PATTERN = re.compile(r"(?<!\!)\[\[(?P<wikilink>[^\|^\]^\#]{1,})(?:.*)\]\]")
         for match in re.finditer(WIKI_PATTERN, markdown):
             wikilink = match.group('wikilink')
-            self.logger.warning(wikilink)
 
             # get the nodes key
             page_path = self.get_page_path(page)
@@ -82,6 +81,10 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
                         if abslen == None or curlen < abslen:
                             target_page_path = k
                             abslen = curlen
+
+            if target_page_path == "":
+                self.logger.warning(page.file.src_uri + ": no target page found for wikilink: " + wikilink)
+                continue
 
             link = {
                 "source": str(self.nodes[page_path]["id"]),
