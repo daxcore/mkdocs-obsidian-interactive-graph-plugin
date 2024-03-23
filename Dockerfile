@@ -8,7 +8,9 @@ COPY ./setup.py /plugin/setup.py
 
 COPY ./README.md /plugin/README.md
 
-RUN pip install /plugin/
+ARG DEV
+
+RUN if [[ "$DEV" == "ON" ]]; then pip install /plugin/; fi
 
 COPY ./requirements.txt /notes/requirements.txt
 

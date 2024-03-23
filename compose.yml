@@ -4,6 +4,8 @@ services:
   mkdocs:
     build:
       context: .
+      args:
+        - DEV=$DEV
       network: host
     restart: unless-stopped
     ports: 
