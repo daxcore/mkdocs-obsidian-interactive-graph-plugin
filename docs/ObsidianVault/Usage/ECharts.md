@@ -1,7 +1,7 @@
 # Echarts
 ## Graph Javascript by Apache ECharts
 
-A `graph.js` example can be downloaded from [here](https://raw.githubusercontent.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/main/docs/YourSiteName/assets/javascripts/graph.js){:target="\_blank"} and must be located into the docs directory under `docs/ObsidianVault/assets/javascripts/graph.js`.
+A `graph.js` example can be downloaded from [here](https://raw.githubusercontent.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/main/docs/ObsidianVault/assets/javascripts/graph.js){:target="\_blank"} and must be located into the docs directory under `docs/ObsidianVault/assets/javascripts/graph.js`.
 
 ## Live Editor
 
