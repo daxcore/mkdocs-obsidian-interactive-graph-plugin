@@ -1,6 +1,6 @@
 site_name: YourSiteName
 docs_dir: ./docs/YourSiteName/
-site_url: https://daxcore.github.io/mkdocs-obsidian-interactive-graph/
+site_url: https://daxcore.github.io/mkdocs-obsidian-interactive-graph-plugin/
 
 theme:
   name: material
