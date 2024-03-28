@@ -1,6 +1,6 @@
 # Interactive Graph for Material for MkDocs
 Plugin for Material for MkDocs to draw an interactive graph like Obsidian.
-Just available for non-mobile website yet.
+The graph inside the sidebar is just available for non-mobile website. The modal view via the button next to the light/dark mode switch shall work on all devices.
 
 Refer [Github Pages](https://daxcore.github.io/mkdocs-obsidian-interactive-graph-plugin/) for a **demonstration** of the interactive graph in Material for MkDocs.
 
