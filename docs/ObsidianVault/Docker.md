@@ -5,7 +5,7 @@ Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the
 
 ## Productive
 
-If `DEV != ON` is set in `mkdocs.yml` the upstream packages of PyPI will be used.
+If `DEV != ON` is set in `mkdocs.yml` the upstream packages of #PyPI will be used.
 
 ## Start
 

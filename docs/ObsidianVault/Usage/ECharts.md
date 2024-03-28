@@ -5,4 +5,4 @@ A `graph.js` example can be downloaded from [here](https://raw.githubusercontent
 
 ## Live Editor
 
-There is a web-based live editor for the EChart javascript file: [Live Editor](https://echarts.apache.org/examples/en/editor.html?c=graph){:target="\_blank"}
+There is a web-based live editor for the #EChart javascript file: [Live Editor](https://echarts.apache.org/examples/en/editor.html?c=graph){:target="\_blank"}
