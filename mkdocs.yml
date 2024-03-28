@@ -1,6 +1,13 @@
-site_name: YourSiteName
-docs_dir: ./docs/YourSiteName/
+site_name: Interactive Graph for Material for MkDocs
+docs_dir: ./docs/ObsidianVault/
 site_url: https://daxcore.github.io/mkdocs-obsidian-interactive-graph-plugin/
+
+site_description: Plugin for Material for MkDocs to draw an interactive graph like Obsidian
+site_author: daxcore
+
+repo_url: https://github.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/
+edit_uri: 'blob/main/docs/ObsidianVault/'
+edit_uri_template: 'blob/main/docs/ObsidianVault/{path}'
 
 theme:
   name: material
@@ -40,6 +47,7 @@ plugins:
   - obsidian-support
   - obsidian-bridge
   - glightbox
+  - privacy
 
 markdown_extensions:
   - admonition
@@ -53,7 +61,6 @@ markdown_extensions:
   - pymdownx.superfences
   - toc:
       permalink: "#"
-      baselevel: 2
 
 extra_css:
   - assets/stylesheets/obsidian_tags.css
