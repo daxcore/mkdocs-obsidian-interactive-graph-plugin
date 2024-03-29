@@ -8,6 +8,8 @@ COPY ./setup.py /plugin/setup.py
 
 COPY ./README.md /plugin/README.md
 
+COPY ./.git/ /plugin/.git/
+
 ARG DEV
 
 RUN if [[ "$DEV" == "ON" ]]; then pip install /plugin/; fi
