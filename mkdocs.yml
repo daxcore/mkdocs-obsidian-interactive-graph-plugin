@@ -47,7 +47,6 @@ plugins:
   - obsidian-support
   - obsidian-bridge
   - glightbox
-  - privacy
 
 markdown_extensions:
   - admonition
