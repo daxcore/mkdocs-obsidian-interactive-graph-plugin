@@ -4,6 +4,11 @@ The graph inside the sidebar is just available for non-mobile website. The modal
 
 Refer [Github Pages](https://daxcore.github.io/mkdocs-obsidian-interactive-graph-plugin/) for a **demonstration** of the interactive graph in Material for MkDocs.
 
+[![Build Status](https://github.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/actions/workflows/ci.yml)
+[![PyPI Version](https://img.shields.io/pypi/v/mkdocs-obsidian-interactive-graph-plugin)](https://pypi.org/project/mkdocs-obsidian-interactive-graph-plugin/)
+[![PyPi Downloads](https://img.shields.io/pypi/dm/mkdocs-obsidian-interactive-graph-plugin.svg)](https://pypi.org/project/mkdocs-obsidian-interactive-graph-plugin/)
+[![GitHub License](https://img.shields.io/github/license/daxcore/mkdocs-obsidian-interactive-graph-plugin)](https://github.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/blob/main/LICENSE)
+
 # Installation
 Available on [PyPI](https://pypi.org/project/mkdocs-obsidian-interactive-graph-plugin/).
 Install via `pip install mkdocs-obsidian-interactive-graph-plugin` or add it to your `requirements.txt`.
