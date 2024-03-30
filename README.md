@@ -23,11 +23,14 @@ plugins:
 extra_javascript:
   - https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
   - https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js
-  - assets/javascripts/graph.js
+  - assets/javascripts/interactive_graph.js
+
+extra_css:
+  - assets/stylesheets/interactive_graph.css
 ```
 
 ## Graph Javascript by Apache ECharts
-A `graph.js` example can be downloaded from [here](https://raw.githubusercontent.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/main/docs/ObsidianVault/assets/javascripts/graph.js) and must be located into the docs directory under `docs/YourSiteName/assets/javascripts/graph.js`.
+A `interactive_graph.js` example can be downloaded from [here](https://raw.githubusercontent.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/main/docs/ObsidianVault/assets/javascripts/interactive_graph.js) and must be located into the docs directory under `docs/YourSiteName/assets/javascripts/interactive_graph.js`.
 
 # Docker
 Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the `mkdocs-obsidian-interactive-graph-plugin` from local files. If `DEV != ON` the upstream packages of PyPI will be used. Build and start the Docker container via `docker compose up --build [-d]`.

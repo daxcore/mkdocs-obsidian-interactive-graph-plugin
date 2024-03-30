@@ -10,5 +10,8 @@ plugins:
 extra_javascript:
   - https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
   - https://fastly.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js
-  - assets/javascripts/graph.js
+  - assets/javascripts/interactive_graph.js
+
+extra_css:
+  - assets/stylesheets/interactive_graph.css
 ```
