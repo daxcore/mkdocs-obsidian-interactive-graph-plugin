@@ -1,0 +1,76 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "name": "Welcome",
+      "symbolSize": 6,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/"
+    },
+    {
+      "id": "1",
+      "name": "Concept",
+      "symbolSize": 2,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/Concept/"
+    },
+    {
+      "id": "2",
+      "name": "Docker",
+      "symbolSize": 1,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/Docker/"
+    },
+    {
+      "id": "3",
+      "name": "Installation",
+      "symbolSize": 1,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/Installation/"
+    },
+    {
+      "id": "4",
+      "name": "References",
+      "symbolSize": 1,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/References/"
+    },
+    {
+      "id": "5",
+      "name": "ECharts",
+      "symbolSize": 2,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/Usage/ECharts/"
+    },
+    {
+      "id": "6",
+      "name": "Setup",
+      "symbolSize": 1,
+      "value": "/mkdocs-obsidian-interactive-graph-plugin/Usage/Setup/"
+    }
+  ],
+  "links": [
+    {
+      "source": "0",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "4"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    }
+  ]
+}
