@@ -55,7 +55,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 
     def parse_markdown(self, markdown: str, page: MkDocsPage):
         # wikilinks: [[Link#Anchor|Custom Text]], just the link is needed
-        WIKI_PATTERN = re.compile(r"(?<!\!)\[\[(?P<wikilink>[^\|^\]^\#]{1,})(?:.*)\]\]")
+        WIKI_PATTERN = re.compile(r"(?<!\!)\[\[(?P<wikilink>[^\|^\]^\#]{1,})(?:.*?)\]\]")
         for match in re.finditer(WIKI_PATTERN, markdown):
             wikilink = match.group('wikilink')
 
