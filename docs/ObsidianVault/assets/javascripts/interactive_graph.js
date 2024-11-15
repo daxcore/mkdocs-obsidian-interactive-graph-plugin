@@ -27,9 +27,15 @@ function init_graph(params) {
 
 var myChart = init_graph();
 
-function draw_graph(myChart) {
+function draw_graph(myChart, modal=false) {
+  console.log(modal);
+  var _option = $.extend(true, {}, option);
+  if(!modal) {
+    _option.series[0].data = graph_nodes();
+    _option.series[0].links = graph_links();
+  }
   // draw the graph
-  myChart.setOption(option);
+  myChart.setOption(_option);
 
   // add click event for nodes
   myChart.on('click', function (params) {
@@ -43,6 +49,21 @@ function draw_graph(myChart) {
 };
 
 var option;
+
+function graph_links() {
+  id = option.series[0].data.find(it => it.value === window.location.pathname).id;
+  return option.series[0].links.filter(it => it.source === id || it.target === id);
+}
+
+function graph_nodes() {
+  id = option.series[0].data.find(it => it.value === window.location.pathname).id;
+  links = option.series[0].links.filter(it => it.source === id || it.target === id);
+  ids = [];
+  links.forEach(function (link) {
+    ids.push(link.source, link.target);
+  });
+  return option.series[0].data.filter(it => [...new Set(ids)].includes(it.id));
+}
 
 $.getJSON(document.currentScript.src + '/../graph.json', function (graph) {
   myChart.hideLoading();
@@ -138,5 +159,5 @@ $('#graph_button').on('click', function (params) {
     }
   });
   myChart = init_graph();
-  draw_graph(myChart);
+  draw_graph(myChart, true);
 });
