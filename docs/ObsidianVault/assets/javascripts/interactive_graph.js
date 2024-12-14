@@ -1,3 +1,13 @@
+// draw graph in sidebar, change global to true if prefered
+function draw_graph_sidebar(myChart, global=false) {
+  draw_graph(myChart, global)
+}
+
+// draw graph in modal view
+function draw_graph_modal(myChart, global=true) {
+  draw_graph(myChart, global)
+}
+
 // add graph button next to light/dark mode switch if activated, but before search
 $('.md-search').before('<form class="md-header__option"> \
                           <label id="graph_button" class="md-header__button md-icon"> \
@@ -27,10 +37,9 @@ function init_graph(params) {
 
 var myChart = init_graph();
 
-function draw_graph(myChart, modal=false) {
-  console.log(modal);
+function draw_graph(myChart, global=true) {
   var _option = $.extend(true, {}, option);
-  if(!modal) {
+  if(!global) {
     _option.series[0].data = graph_nodes();
     _option.series[0].links = graph_links();
   }
@@ -132,7 +141,8 @@ $.getJSON(document.currentScript.src + '/../graph.json', function (graph) {
       }
     ]
   };
-  draw_graph(myChart);
+  // initial draw in sidebar
+  draw_graph_sidebar(myChart);
 });
 
 $("#__palette_0").change(function(){
@@ -155,9 +165,10 @@ $('#graph_button').on('click', function (params) {
       $('#modal_background').remove();
       add_graph_div();
       myChart = init_graph();
-      draw_graph(myChart);
+      // re-draw sidebar, e.g. switch back from modal view
+      draw_graph_sidebar(myChart);
     }
   });
   myChart = init_graph();
-  draw_graph(myChart, true);
+  draw_graph_modal(myChart);
 });
