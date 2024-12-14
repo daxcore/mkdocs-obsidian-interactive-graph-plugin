@@ -32,7 +32,7 @@ extra_css:
 ## Graph Javascript by Apache ECharts
 A `interactive_graph.js` example can be downloaded from [here](https://raw.githubusercontent.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/main/docs/ObsidianVault/assets/javascripts/interactive_graph.js) and must be located into the docs directory under `docs/YourSiteName/assets/javascripts/interactive_graph.js`.
 
-Beginning from version 0.3.0 the default graph inside the sidebar was minimized to egdes related to the current page only. The previous behavior can be restored by setting `global` to `true` at line `draw_graph_sidebar(myChart, global=false)` at top of javascript file.
+Beginning from version 0.3.0 the default graph inside the sidebar was minimized to edges related to the current page only. The previous behavior can be restored by setting `global` to `true` at line `draw_graph_sidebar(myChart, global=false)` at top of javascript file.
 
 # Docker
 Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the `mkdocs-obsidian-interactive-graph-plugin` from local files. If `DEV != ON` the upstream packages of PyPI will be used. Build and start the Docker container via `docker compose up --build [-d]`.
