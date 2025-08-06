@@ -1,12 +1,21 @@
 # Docker
-## Development
 
-Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the `mkdocs-obsidian-interactive-graph-plugin` from local files.
+The Docker setup provides two modes for running the environment, controlled by the `DEV` flag in the `.env` file.
 
-## Productive
+## Development Mode
 
-If `DEV != ON` is set in `mkdocs.yml` the upstream packages of #PyPI will be used.
+When `DEV=ON` is set in your `.env` file, the Docker container installs the plugin from your local source code. This is ideal for development, as it allows you to test your changes in a containerized environment.
 
-## Start
+## Production Mode
 
-Build and start the Docker container via `docker compose up --build [-d]`.
+If `DEV` is set to any other value (or is not set), the container will install the latest version of the plugin from PyPI. This simulates a production environment.
+
+## Usage
+
+1.  Configure your environment by adapting the `.env` and `mkdocs.yml` files.
+2.  Use Docker Compose to build and run the container:
+
+```bash
+docker compose up --build -d
+```
+

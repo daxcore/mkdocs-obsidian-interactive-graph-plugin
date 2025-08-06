@@ -10,8 +10,26 @@ Refer [Github Pages](https://daxcore.github.io/mkdocs-obsidian-interactive-graph
 [![GitHub License](https://img.shields.io/github/license/daxcore/mkdocs-obsidian-interactive-graph-plugin)](https://github.com/daxcore/mkdocs-obsidian-interactive-graph-plugin/blob/main/LICENSE)
 
 # Installation
+
 Available on [PyPI](https://pypi.org/project/mkdocs-obsidian-interactive-graph-plugin/).
-Install via `pip install mkdocs-obsidian-interactive-graph-plugin` or add it to your `requirements.txt`.
+
+Install with pip:
+
+```bash
+pip install mkdocs-obsidian-interactive-graph-plugin
+```
+
+For faster installation with [UV](https://docs.astral.sh/uv/):
+
+```bash
+uv pip install mkdocs-obsidian-interactive-graph-plugin
+```
+
+## Requirements
+
+- **Python**: 3.10+
+- **MkDocs**: 1.6+
+- **MkDocs Material**: 9.x series
 
 # Usage
 ## Setup in MkDocs

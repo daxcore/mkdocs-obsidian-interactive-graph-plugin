@@ -6,7 +6,7 @@ services:
         - DEV=$DEV
       network: host
     restart: unless-stopped
-    ports: 
+    ports:
       - $IP:$PORT:8000
     volumes:
       - ./mkdocs.yml:/notes/mkdocs.yml:ro
