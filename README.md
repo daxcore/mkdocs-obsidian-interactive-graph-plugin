@@ -37,6 +37,9 @@ Beginning from version `0.3.0` the default graph inside the sidebar was minimize
 # Docker
 Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the `mkdocs-obsidian-interactive-graph-plugin` from local files. If `DEV != ON` the upstream packages of PyPI will be used. Build and start the Docker container via `docker compose up --build [-d]`.
 
+# Limitations
+There is a bug in ECharts library in pinch to zoom feature (https://github.com/apache/echarts/pull/21068), but it seems like they will not fix it. Anybody can fix it by its own, by downloading the current version of the javascript library and patching via diff of the pull-request and use this in the mkdocs configuration. May another good idea could be, to not use the ECharts library... There is another project like this, that uses D3 library instead of ECharts: https://github.com/develmusa/mkdocs-network-graph-plugin including some more improvements.
+
 # References
 * https://www.mkdocs.org/
 * https://squidfunk.github.io/mkdocs-material/
@@ -44,3 +47,4 @@ Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the
 * https://github.com/GooRoo/mkdocs-obsidian-bridge
 * https://github.com/blueswen/mkdocs-glightbox
 * https://echarts.apache.org
+* https://github.com/mkdocs/catalog
