@@ -147,11 +147,11 @@ $.getJSON(document.currentScript.src + '/../graph.json', function (graph) {
 
 $("#__palette_0").change(function(){
   option.backgroundColor = $("body").css("background-color");
-  myChart.setOption(option);
+  draw_graph_sidebar(myChart);
 });
 $("#__palette_1").change(function(){
   option.backgroundColor = $("body").css("background-color");
-  myChart.setOption(option);
+  draw_graph_sidebar(myChart);
 });
 
 $('#graph_button').on('click', function (params) {
