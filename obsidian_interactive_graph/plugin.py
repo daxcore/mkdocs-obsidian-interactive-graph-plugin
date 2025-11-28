@@ -54,10 +54,13 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
             }
 
     def parse_markdown(self, markdown: str, page: MkDocsPage):
-        # wikilinks: [[Link#Anchor|Custom Text]], just the link is needed
-        WIKI_PATTERN = re.compile(r"(?<!\!)\[\[(?P<wikilink>[^\|^\]^\#]{1,})(?:.*?)\]\]")
+        # wikilinks: just the link is needed
+        # Obsidian: [[Link#Anchor|Custom Text]]
+        # Markdown: [Custom Text](Link)
+        WIKI_PATTERN = re.compile(r"(?<!\!)\[\[(?P<obsidianlink>[^\|^\]^\#]+)(?:.*?)\]\]|(?<!\!)\[[^\]]+\]\((?P<markdownlink>[^\)^\#]+)(?:#[^\)]*)?\)")
+
         for match in re.finditer(WIKI_PATTERN, markdown):
-            wikilink = match.group('wikilink')
+            wikilink = match.group('obsidianlink') or match.group('markdownlink')
 
             # get the nodes key
             page_path = self.get_page_path(page)
@@ -75,10 +78,10 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 
                 # find something that matches: shortest path depth
                 abslen = None
-                for k,_ in self.nodes.items():
+                for k, _ in self.nodes.items():
                     for _ in re.finditer(re.compile(r"(.*" + wikilink + r")"), k):
                         curlen = k.count('/')
-                        if abslen == None or curlen < abslen:
+                        if abslen is None or curlen < abslen:
                             target_page_path = k
                             abslen = curlen
 
