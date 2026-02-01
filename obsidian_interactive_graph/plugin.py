@@ -71,13 +71,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
                 wikilink = self.page_if_exists(wikilink) or self.page_if_exists(self.get_path(page_path, wikilink)) or wikilink
 
                 # find something that matches: shortest path depth
-                abslen = None
-                for k,_ in self.nodes.items():
-                    for _ in re.finditer(re.compile(r"(.*" + wikilink + r")"), k):
-                        curlen = k.count('/')
-                        if abslen == None or curlen < abslen:
-                            target_page_path = k
-                            abslen = curlen
+                target_page_path = find_best_target(self.nodes, wikilink)
 
             if target_page_path == "":
                 self.logger.warning(page.file.src_uri + ": no target page found for wikilink: " + wikilink)
@@ -119,3 +113,15 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 
     def on_env(self, env, config: MkDocsConfig, files: MkDocsFiles):
         self.create_graph_json(config)
+
+
+def find_best_target(nodes, wikilink: str) -> str:
+    abslen = None
+    target_page_path = ""
+    for k, _ in nodes.items():
+        for _ in re.finditer(re.compile(r"(.*" + wikilink + r")"), k):
+            curlen = k.count('/')
+            if abslen == None or curlen < abslen:
+                target_page_path = k
+                abslen = curlen
+    return target_page_path
