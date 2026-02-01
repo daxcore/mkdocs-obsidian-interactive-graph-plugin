@@ -118,10 +118,10 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 def find_best_target(nodes, wikilink: str) -> str:
     abslen = None
     target_page_path = ""
-    for k, _ in nodes.items():
-        for _ in re.finditer(re.compile(r"(.*" + wikilink + r")"), k):
+    for k in nodes.keys():
+        for _ in re.finditer(re.compile(r"(.*" + wikilink + r"[^/]*$)"), k):
             curlen = k.count('/')
-            if abslen == None or curlen < abslen:
+            if abslen is None or curlen < abslen:
                 target_page_path = k
                 abslen = curlen
     return target_page_path
