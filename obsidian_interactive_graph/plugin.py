@@ -36,10 +36,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 
     def page_if_exists(self, page: str) -> str:
         page = self.get_path(self.site_path, page)
-        for k,_ in self.nodes.items():
-            if k == page:
-                return page
-        return None
+        return page if page in self.nodes else None
 
     def collect_pages(self, nav: MkDocsNav, config: MkDocsConfig):
         for page in nav.pages:
@@ -97,12 +94,12 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
             self.nodes[target_page_path]["symbolSize"] = self.nodes[target_page_path].get("symbolSize", 1) + 1
 
     def create_graph_json(self, config: MkDocsConfig):
-        for i, (k,v) in enumerate(self.nodes.items()):
+        for i, (k, v) in enumerate(self.nodes.items()):
             node = {
-                    "id": str(i),
-                    "name": v["title"],
-                    "symbolSize": v["symbolSize"],
-                    "value": v["url"]
+                "id": str(i),
+                "name": v["title"],
+                "symbolSize": v["symbolSize"],
+                "value": v["url"]
             }
             self.data["nodes"].append(node)
 
