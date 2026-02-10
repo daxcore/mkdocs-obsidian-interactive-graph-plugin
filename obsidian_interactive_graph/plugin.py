@@ -36,10 +36,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 
     def page_if_exists(self, page: str) -> str:
         page = self.get_path(self.site_path, page)
-        for k,_ in self.nodes.items():
-            if k == page:
-                return page
-        return None
+        return page if page in self.nodes else None
 
     def collect_pages(self, nav: MkDocsNav, config: MkDocsConfig):
         for page in nav.pages:
@@ -74,13 +71,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
                 wikilink = self.page_if_exists(wikilink) or self.page_if_exists(self.get_path(page_path, wikilink)) or wikilink
 
                 # find something that matches: shortest path depth
-                abslen = None
-                for k,_ in self.nodes.items():
-                    for _ in re.finditer(re.compile(r"(.*" + wikilink + r")"), k):
-                        curlen = k.count('/')
-                        if abslen == None or curlen < abslen:
-                            target_page_path = k
-                            abslen = curlen
+                target_page_path = find_best_target(self.nodes, wikilink)
 
             if target_page_path == "":
                 self.logger.warning(page.file.src_uri + ": no target page found for wikilink: " + wikilink)
@@ -97,12 +88,12 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
             self.nodes[target_page_path]["symbolSize"] = self.nodes[target_page_path].get("symbolSize", 1) + 1
 
     def create_graph_json(self, config: MkDocsConfig):
-        for i, (k,v) in enumerate(self.nodes.items()):
+        for i, (k, v) in enumerate(self.nodes.items()):
             node = {
-                    "id": str(i),
-                    "name": v["title"],
-                    "symbolSize": v["symbolSize"],
-                    "value": v["url"]
+                "id": str(i),
+                "name": v["title"],
+                "symbolSize": v["symbolSize"],
+                "value": v["url"]
             }
             self.data["nodes"].append(node)
 
@@ -122,3 +113,15 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
 
     def on_env(self, env, config: MkDocsConfig, files: MkDocsFiles):
         self.create_graph_json(config)
+
+
+def find_best_target(nodes, wikilink: str) -> str:
+    abslen = None
+    target_page_path = ""
+    for k in nodes.keys():
+        for _ in re.finditer(re.compile(r"(.*" + wikilink + r"[^/]*$)"), k):
+            curlen = k.count('/')
+            if abslen is None or curlen < abslen:
+                target_page_path = k
+                abslen = curlen
+    return target_page_path
