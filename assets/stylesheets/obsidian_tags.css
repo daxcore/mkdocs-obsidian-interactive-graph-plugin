@@ -1,0 +1,14 @@
+.md-typeset figure {
+  margin: 0;
+}
+
+.hash {
+  background-color: #f3eefd;
+  border-radius: 20px;
+  padding: 5px;
+  font-weight: normal;
+}
+
+[data-md-color-scheme="slate"] .hash {
+  background-color: #292433;
+}
