@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from urllib.parse import unquote
 
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.plugins import BasePlugin, get_plugin_logger
@@ -50,18 +51,20 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
         self.nodes[target_page_path]["symbolSize"] = self.nodes[target_page_path].get("symbolSize", 1) + 1
 
     def parse_markdown_link_target(self, target: str) -> str:
-        # Inline markdown links may include an optional title after URL.
-        match = re.match(
-            r"^\s*(?P<url><[^>]+>|[^)\s]+)(?:\s+(?:\"[^\"]*\"|'[^']*'|\([^\)]*\)))?\s*$",
-            target
-        )
-        if not match:
+        parsed_target = target.strip()
+        if not parsed_target:
             return None
 
-        parsed_target = match.group("url").strip()
+        # Inline markdown links may include an optional title after URL.
+        # Keep URLs containing spaces, only trimming a valid trailing title token.
+        title_match = re.match(r"^(?P<url>.+?)\s+(?:\"[^\"]*\"|'[^']*'|\([^\)]*\))\s*$", parsed_target)
+        if title_match:
+            parsed_target = title_match.group("url").strip()
+
         if parsed_target.startswith("<") and parsed_target.endswith(">"):
             parsed_target = parsed_target[1:-1].strip()
 
+        parsed_target = unquote(parsed_target)
         parsed_target = parsed_target.split("#", 1)[0].split("?", 1)[0].strip()
         if not parsed_target:
             return None
@@ -77,6 +80,38 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
             parsed_target = parsed_target[:-3]
 
         return parsed_target or None
+
+    def iter_target_candidates(self, target: str):
+        normalized = target.strip()
+        if not normalized:
+            return
+
+        if normalized.startswith(("/", "\\")):
+            normalized = normalized.lstrip("/\\")
+
+        normalized = normalized.rstrip("/")
+        if not normalized:
+            return
+
+        yield normalized
+        if not normalized.endswith("/index"):
+            yield normalized + "/index"
+
+    def resolve_target_page_path(self, page_path: str, target: str) -> str:
+        for candidate in self.iter_target_candidates(target):
+            resolved_target = (
+                self.page_if_exists(candidate)
+                or self.page_if_exists(self.get_path(page_path, candidate))
+            )
+            if resolved_target:
+                return resolved_target
+
+        for candidate in self.iter_target_candidates(target):
+            resolved_target = find_best_target(self.nodes, candidate)
+            if resolved_target:
+                return resolved_target
+
+        return ""
 
     def collect_pages(self, nav: MkDocsNav, config: MkDocsConfig):
         for page in nav.pages:
@@ -106,12 +141,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
             if wikilink == "index" and self.nodes[page_path]["is_index"]:
                 target_page_path = page_path
             else:
-                # 1st: link to global page if exists
-                # 2nd: search relative
-                wikilink = self.page_if_exists(wikilink) or self.page_if_exists(self.get_path(page_path, wikilink)) or wikilink
-
-                # find something that matches: shortest path depth
-                target_page_path = find_best_target(self.nodes, wikilink)
+                target_page_path = self.resolve_target_page_path(page_path, wikilink)
 
             if target_page_path == "":
                 self.logger.warning(page.file.src_uri + ": no target page found for wikilink: " + wikilink)
@@ -124,11 +154,7 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
             if markdown_target is None:
                 continue
 
-            target_page_path = (
-                self.page_if_exists(markdown_target)
-                or self.page_if_exists(self.get_path(page_path, markdown_target))
-                or find_best_target(self.nodes, markdown_target)
-            )
+            target_page_path = self.resolve_target_page_path(page_path, markdown_target)
             if target_page_path == "":
                 self.logger.warning(page.file.src_uri + ": no target page found for markdown link: " + markdown_target)
                 continue
