@@ -38,6 +38,46 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
         page = self.get_path(self.site_path, page)
         return page if page in self.nodes else None
 
+    def add_graph_link(self, source_page_path: str, target_page_path: str):
+        link = {
+            "source": str(self.nodes[source_page_path]["id"]),
+            "target": str(self.nodes[target_page_path]["id"])
+        }
+        self.data["links"].append(link)
+
+        # rate +1 if page has link or is linked
+        self.nodes[source_page_path]["symbolSize"] = self.nodes[source_page_path].get("symbolSize", 1) + 1
+        self.nodes[target_page_path]["symbolSize"] = self.nodes[target_page_path].get("symbolSize", 1) + 1
+
+    def parse_markdown_link_target(self, target: str) -> str:
+        # Inline markdown links may include an optional title after URL.
+        match = re.match(
+            r"^\s*(?P<url><[^>]+>|[^)\s]+)(?:\s+(?:\"[^\"]*\"|'[^']*'|\([^\)]*\)))?\s*$",
+            target
+        )
+        if not match:
+            return None
+
+        parsed_target = match.group("url").strip()
+        if parsed_target.startswith("<") and parsed_target.endswith(">"):
+            parsed_target = parsed_target[1:-1].strip()
+
+        parsed_target = parsed_target.split("#", 1)[0].split("?", 1)[0].strip()
+        if not parsed_target:
+            return None
+
+        if parsed_target.startswith(("/", "\\")):
+            parsed_target = parsed_target.lstrip("/\\")
+
+        # Skip external/resource schemes and in-page anchors.
+        if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", parsed_target):
+            return None
+
+        if parsed_target.endswith(".md"):
+            parsed_target = parsed_target[:-3]
+
+        return parsed_target or None
+
     def collect_pages(self, nav: MkDocsNav, config: MkDocsConfig):
         for page in nav.pages:
             page.read_source(config=config)
@@ -53,11 +93,11 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
     def parse_markdown(self, markdown: str, page: MkDocsPage):
         # wikilinks: [[Link#Anchor|Custom Text]], just the link is needed
         WIKI_PATTERN = re.compile(r"(?<!\!)\[\[(?P<wikilink>[^\|^\]^\#]{1,})(?:.*?)\]\]")
+        MARKDOWN_LINK_PATTERN = re.compile(r"(?<!\!)\[[^\]]+\]\((?P<link_target>[^)]+)\)")
+        page_path = self.get_page_path(page)
+
         for match in re.finditer(WIKI_PATTERN, markdown):
             wikilink = match.group('wikilink')
-
-            # get the nodes key
-            page_path = self.get_page_path(page)
 
             # search page path of target page
             target_page_path = ""
@@ -77,15 +117,23 @@ class ObsidianInteractiveGraphPlugin(BasePlugin):
                 self.logger.warning(page.file.src_uri + ": no target page found for wikilink: " + wikilink)
                 continue
 
-            link = {
-                "source": str(self.nodes[page_path]["id"]),
-                "target": str(self.nodes[target_page_path]["id"])
-            }
-            self.data["links"].append(link)
+            self.add_graph_link(page_path, target_page_path)
 
-            # rate +1 if page has link of is linked
-            self.nodes[page_path]["symbolSize"] = self.nodes[page_path].get("symbolSize", 1) + 1
-            self.nodes[target_page_path]["symbolSize"] = self.nodes[target_page_path].get("symbolSize", 1) + 1
+        for match in re.finditer(MARKDOWN_LINK_PATTERN, markdown):
+            markdown_target = self.parse_markdown_link_target(match.group("link_target"))
+            if markdown_target is None:
+                continue
+
+            target_page_path = (
+                self.page_if_exists(markdown_target)
+                or self.page_if_exists(self.get_path(page_path, markdown_target))
+                or find_best_target(self.nodes, markdown_target)
+            )
+            if target_page_path == "":
+                self.logger.warning(page.file.src_uri + ": no target page found for markdown link: " + markdown_target)
+                continue
+
+            self.add_graph_link(page_path, target_page_path)
 
     def create_graph_json(self, config: MkDocsConfig):
         for i, (k, v) in enumerate(self.nodes.items()):
