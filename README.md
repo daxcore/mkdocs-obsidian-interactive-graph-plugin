@@ -34,6 +34,32 @@ A `interactive_graph.js` example can be downloaded from [here](https://raw.githu
 
 Beginning from version `0.3.0` the default graph inside the sidebar was minimized to edges related to the current page only. The previous behavior can be restored by setting `global` to `true` at line `draw_graph_sidebar(myChart, global=false)` at top of javascript file.
 
+# Development
+## Testing
+To contribute to the project, please ensure all tests pass. We use `pytest` for unit and integration testing.
+
+1.  **Install Dependencies:**
+    Install the package in editable mode along with testing requirements:
+    ```bash
+    pip install -e .
+    pip install pytest pytest-benchmark
+    ```
+
+2.  **Run Tests:**
+    Run the full suite from the root directory:
+    ```bash
+    pytest
+    ```
+
+    You can also run specific categories of tests:
+    ```bash
+    # Run only integration tests (full build cycle)
+    pytest tests/test_integration.py
+
+    # Benchmark performance
+    pytest tests/test_performance.py
+    ```
+
 # Docker
 Adapt the `.env` and `mkdocs.yml` files to your needs. `DEV=ON` will rebuild the `mkdocs-obsidian-interactive-graph-plugin` from local files. If `DEV != ON` the upstream packages of PyPI will be used. Build and start the Docker container via `docker compose up --build [-d]`.
 
